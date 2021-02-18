@@ -2,18 +2,39 @@ package main
 
 import "fmt"
 
+type contactInfo struct {
+	email   string
+	zipCode int
+}
+
 // create a new type called person, struct type
 type person struct {
 	firstName string
 	lastName  string
+	contactInfo
 }
 
 func main() {
-	alex := person{"Alex", "Anderson"}                        // relies on order, common in Go but not great
-	chris := person{firstName: "Chris", lastName: "Anderson"} // init with properties
+	jim := person{
+		firstName: "Jim",
+		lastName:  "Party",
+		contactInfo: contactInfo{
+			email:   "jim@gmail.com",
+			zipCode: 12345,
+		},
+	}
 
-	fmt.Println(alex)
-	fmt.Println(chris)
+	jim.print()
+	jim.updateName("Jimmy")
+	jim.print()
+}
+
+func (p person) updateName(newFirstName string) {
+	p.firstName = newFirstName
+}
+
+func (p person) print() {
+	fmt.Printf("%+v", p)
 }
 
 // $ go run main.go
