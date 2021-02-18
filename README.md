@@ -112,3 +112,38 @@ func main() {
 }
 
 ```
+
+## Pointers
+
+Memorory on your machine (RAM) can be thought of as a bunch of different slots/boxes. Each box can store some data.
+
+Go is a "Pass by Value" language, which means that when you pass a value in Go it creates a new instance in the memory
+
+```go
+
+// create a new type called person, struct type
+type person struct {
+	firstName string
+	lastName  string
+}
+
+func main() {
+	jim := person{
+		firstName: "Jim",
+		lastName:  "Party",
+	}
+
+	jim.print()
+	jim.updateName("Jimmy") // doesn't actually update firstName to "Jimmy"
+	jim.print()
+}
+
+func (p person) updateName(newFirstName string) {
+	p.firstName = newFirstName // p is a copy of jim, doesn't actually update the original object in the memorys
+}
+
+func (p person) print() {
+	fmt.Printf("%+v", p)
+}
+
+```

@@ -25,7 +25,7 @@ func main() {
 	}
 
 	jim.print()
-	jim.updateName("Jimmy")
+	jim.updateName("Jimmy") // doesn't actually update
 	jim.print()
 }
 
