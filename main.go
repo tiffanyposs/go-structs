@@ -25,16 +25,17 @@ func main() {
 	}
 
 	jim.print()
-	jim.updateName("Jimmy") // doesn't actually update
+	jim.updateName("Jimmy")
 	jim.print()
 }
 
-func (p person) updateName(newFirstName string) {
-	p.firstName = newFirstName
+// *person is like "receive pointer that points towards a person type"
+func (p *person) updateName(newFirstName string) {
+	(*p).firstName = newFirstName //
 }
 
 func (p person) print() {
-	fmt.Printf("%+v", p)
+	fmt.Printf("%+v \n\n\n", p)
 }
 
 // $ go run main.go

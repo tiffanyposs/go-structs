@@ -117,7 +117,9 @@ func main() {
 
 Memorory on your machine (RAM) can be thought of as a bunch of different slots/boxes. Each box can store some data.
 
-Go is a "Pass by Value" language, which means that when you pass a value in Go it creates a new instance in the memory
+Go is a "Pass by Value" language, which means that when you pass a value in Go it creates a new instance in the memory.
+
+The below example doesn't do what you might think it does at first glance:
 
 ```go
 
@@ -135,7 +137,7 @@ func main() {
 
 	jim.print()
 	jim.updateName("Jimmy") // doesn't actually update firstName to "Jimmy"
-	jim.print()
+	jim.print() // firstName is still "
 }
 
 func (p person) updateName(newFirstName string) {
@@ -145,5 +147,111 @@ func (p person) updateName(newFirstName string) {
 func (p person) print() {
 	fmt.Printf("%+v", p)
 }
+
+```
+
+* `&<variable>` - Give me the memory address of the value this value is pointing at
+* `*<type>` - We are working with a pointer that points towars a certain type
+* `*<pointer>` - Give me the value this memory address is pointing at ( we want to manipulate the value the pointer is referencing)
+
+
+Here is an example of using pointers (this code will now work):
+
+```go
+
+// create a new type called person, struct type
+type person struct {
+	firstName string
+	lastName  string
+}
+
+func main() {
+	jim := person{
+		firstName: "Jim",
+		lastName:  "Party",
+	}
+
+	jim.print()
+	jimPointer := &jim
+	jimPointer.updateName("Jimmy")
+	jim.print()
+}
+
+func (pointerToPerson *person) updateName(newFirstName string) {
+	(*pointerToPerson).firstName = newFirstName 
+}
+
+func (p person) print() {
+	fmt.Printf("%+v", p)
+}
+
+```
+
+
+Here is a simplified version of using pointers:
+
+```go
+
+// create a new type called person, struct type
+type person struct {
+	firstName string
+	lastName  string
+}
+
+func main() {
+	jim := person{
+		firstName: "Jim",
+		lastName:  "Party",
+	}
+
+	jim.print()
+	jimPointer.updateName("Jimmy")
+	jim.print()
+}
+
+// Go will automatically know to switch person a pointer to person
+func (p *person) updateName(newFirstName string) {
+	(*p).firstName = newFirstName 
+}
+
+func (p person) print() {
+	fmt.Printf("%+v", p)
+}
+
+```
+
+Cheat Sheet:
+
+| `address` | `value`                                           |
+| ------  | ----------------------------------------------- |
+| 0001    | person{firstName: "Jim", lastName: "Party"}     |
+| 0002    | person{firstName: "Alex", lastName: "Anderson"} |
+
+Turn `address` into `value` with `*address`
+Turn `value` into `address` with `&value`
+
+---
+
+Slices work differently than structs, you don't have to pass the pointer:
+
+```go
+
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	mySlice := []string{"Hi", "There", "How", "Are", "You"}
+	updateSlice(mySlice)
+	fmt.Println(mySlice) // updates to bye
+}
+
+func updateSlice(s []string) {
+	s[0] = "bye"
+}
+
+
 
 ```
