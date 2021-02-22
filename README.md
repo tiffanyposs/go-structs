@@ -222,7 +222,7 @@ func (p person) print() {
 
 Cheat Sheet:
 
-| `address` | `value`                                           |
+| `address` | `value`                                       |
 | ------  | ----------------------------------------------- |
 | 0001    | person{firstName: "Jim", lastName: "Party"}     |
 | 0002    | person{firstName: "Alex", lastName: "Anderson"} |
@@ -252,6 +252,55 @@ func updateSlice(s []string) {
 	s[0] = "bye"
 }
 
-
-
 ```
+
+## Value Types vs Reference Types
+
+### Example with Arrays and Slices
+
+Arrays:
+
+* Primative data structure
+* Can't be resized
+* Rarely used directly
+
+Slices:
+
+* Can grow and shrink
+* Used 99% of the time for a list of elements
+
+### Slice structures
+
+Slices actually have a `pointer` towards an array in the data, and also have `capacity` and `length` property.
+
+Since Go is a pass by value language, when you pass `0001` slice into a method, it does make a copy but a slice actually the copy still points towards `0002` for it's data. This is why you don't have to use pointers with Slices in Go (like you do with structs).
+
+This is called a **reference type** in Go.
+
+| `address` | `value`                                                                  |
+| ----------| ------------------------------------------------------------------------ |
+| 0001      | Original Slice: pointer to 0002 array, length, capacity                  |
+| 0002      | []string{ "banana", "kiwi" }                                             |
+| 0002      | Slice 0001 passed into function: pointer to 0002 array, length, capacity |
+
+### Reference vs Value Types
+
+Value Types:
+
+Use pointers to change these in functions.
+
+* Int
+* Float
+* String
+* Bool
+* Structs
+
+Reference Types:
+
+Don't use pointers with these.
+
+* Slices
+* Maps
+* Channels
+* Pointers
+* Functions
